@@ -1,65 +1,137 @@
 # Unbiased News
 
-Aggregate news from multiple sources to present unbiased reporting.
+A tool for comparing news articles from different sources and detecting bias.
 
-## Vision
+## What This Does
 
-In an era of increasingly polarized media, **Unbiased News** aims to aggregate stories from diverse news sources, identify potential biases, and present readers with a more complete picture of current events.
+**Unbiased News** helps you see how different news outlets cover the same story. Instead of reading just one perspective, you can:
 
-The goal is not to tell you what to think, but to show you the full spectrum of how stories are being reported.
+1. **Add articles** from different sources about the same topic
+2. **Analyze them for bias** using AI (Claude) to detect loaded language, framing, etc.
+3. **Compare them side-by-side** to see where sources agree and disagree
+4. **Get a balanced summary** that fairly represents all perspectives
 
-## Planned Features
+## Quick Start
 
-- **Multi-source aggregation** - Pull articles from sources across the political spectrum
-- **Bias detection** - Analyze language patterns and framing to identify potential bias
-- **Side-by-side comparison** - View how different outlets cover the same story
-- **CLI tool** - Quick access to aggregated news from your terminal
-- **API** - Programmatic access for building your own applications
-- **Topic clustering** - Group related stories across sources
+### 1. Install the tool
 
-## Tech Stack
+```bash
+cd /Users/bensparango/Projects/unbiased-news
+pip3 install -e .
+```
 
-*To be determined* - evaluating options including:
-- TypeScript/Node.js for the core engine
-- Python for ML-based bias detection
-- Various news APIs and RSS feeds for data sources
+### 2. Set up your API key (for bias analysis)
+
+```bash
+export ANTHROPIC_API_KEY='your-key-here'
+```
+
+Get an API key at: https://console.anthropic.com/
+
+### 3. Add your first article
+
+```bash
+unbiased-news add
+```
+
+Follow the prompts to enter the headline, source name, and paste the article text.
+
+## Commands
+
+| Command | What it does |
+|---------|--------------|
+| `unbiased-news add` | Add a new article by pasting text |
+| `unbiased-news list` | See all your saved articles |
+| `unbiased-news view <id>` | Read a specific article |
+| `unbiased-news analyze <id>` | Get a bias score for an article |
+| `unbiased-news analyze-all` | Analyze all unanalyzed articles |
+| `unbiased-news stories` | See your story groups |
+| `unbiased-news story <id>` | See all articles in a story |
+| `unbiased-news compare <story-id>` | Compare articles in a story |
+| `unbiased-news compare-articles <id1> <id2>` | Compare specific articles |
+| `unbiased-news delete <id>` | Remove an article |
+
+## Example Workflow
+
+Let's say you want to compare how CNN and Fox News cover the same story:
+
+```bash
+# Add the CNN article
+unbiased-news add
+# Enter "CNN" as the source, paste the article text
+
+# Add the Fox News article
+unbiased-news add
+# When prompted, add it to the same "story" as the CNN article
+
+# Analyze both for bias
+unbiased-news analyze-all
+
+# Compare them side-by-side
+unbiased-news compare <story-id>
+```
+
+The comparison will show:
+- Facts both sources agree on
+- Where they differ
+- A balanced summary representing both perspectives
+- Questions that remain unanswered
+
+## How Bias Scoring Works
+
+The bias score ranges from 0-100:
+
+| Score | Meaning |
+|-------|---------|
+| 0-30 | Left-leaning bias |
+| 31-45 | Slightly left-leaning |
+| 46-54 | Relatively neutral |
+| 55-69 | Slightly right-leaning |
+| 70-100 | Right-leaning bias |
+
+The analysis also identifies:
+- **Loaded language** - Emotionally charged words
+- **Framing** - How the story is presented
+- **Source selection** - Who is quoted
+- **Omissions** - Important context left out
+- **Tone** - Sympathetic vs critical
 
 ## Project Structure
 
 ```
 unbiased-news/
-├── src/           # Source code
-├── docs/          # Documentation
-├── tests/         # Test files
-└── scripts/       # Utility scripts
+├── src/
+│   ├── cli.py        # Command-line interface
+│   ├── storage.py    # Saves/loads articles locally
+│   ├── analyzer.py   # Bias detection using Claude AI
+│   └── comparer.py   # Generates balanced comparisons
+├── data/             # Where your articles are saved (created automatically)
+├── requirements.txt  # Python dependencies
+└── setup.py         # Installation config
 ```
 
-## Getting Started
+## Data Storage
 
-Coming soon - project is in initial development phase.
+All your articles are saved locally in the `data/` folder as JSON files. No data is sent anywhere except to Claude's API for analysis.
+
+## Troubleshooting
+
+**"Command not found: unbiased-news"**
+- Make sure you've installed with `pip3 install -e .`
+- Or use the full path: `/Users/bensparango/Library/Python/3.9/bin/unbiased-news`
+
+**"No Anthropic API key found"**
+- Set your API key: `export ANTHROPIC_API_KEY='your-key-here'`
 
 ## Contributing
 
-We welcome contributions! Please see our contributing guidelines below.
-
-### How to Contribute
+We welcome contributions!
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Code of Conduct
-
-- Be respectful and inclusive
-- Focus on constructive feedback
-- Keep discussions on-topic and professional
+3. Commit your changes
+4. Push and open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-Questions or suggestions? Open an issue or start a discussion.
+MIT License - see [LICENSE](LICENSE) for details.
