@@ -1,8 +1,10 @@
 'use client';
 
+import { useRef, useCallback } from 'react';
 import { Story } from '@/types/story';
 import { VelocityIndicator } from './VelocityIndicator';
 import { BiasSpectrum } from './BiasSpectrum';
+import { prefetchSummary } from '@/lib/prefetch';
 import Link from 'next/link';
 
 interface StoryCardProps {
@@ -11,6 +13,8 @@ interface StoryCardProps {
 }
 
 export function StoryCard({ story, rank }: StoryCardProps) {
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const timeAgo = (date: string) => {
     const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
     if (seconds < 60) return `${seconds}s ago`;
@@ -27,8 +31,33 @@ export function StoryCard({ story, rank }: StoryCardProps) {
     return { label: 'R', class: 'source-right' };
   };
 
+  // Prefetch on hover with 100ms delay
+  const handleMouseEnter = useCallback(() => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      prefetchSummary(story.id, story);
+    }, 100);
+  }, [story]);
+
+  // Cancel prefetch if user leaves quickly
+  const handleMouseLeave = useCallback(() => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  }, []);
+
+  // Mobile: prefetch on touch start
+  const handleTouchStart = useCallback(() => {
+    prefetchSummary(story.id, story);
+  }, [story]);
+
   return (
-    <div className="cartoon-border bg-white dark:bg-[#151515] p-0 overflow-hidden">
+    <div
+      className="cartoon-border bg-white dark:bg-[#151515] p-0 overflow-hidden"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+    >
       {/* Main row - Reddit style */}
       <div className="flex">
         {/* Rank column */}

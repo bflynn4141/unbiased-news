@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getStoryById } from '@/lib/stories';
-import { generateSummary } from '@/lib/summary';
-import BalancedSummary from '@/components/BalancedSummary';
+import { SummarySection } from '@/components/SummarySection';
 import { BiasSpectrum } from '@/components/BiasSpectrum';
 import { VelocityIndicator } from '@/components/VelocityIndicator';
 
@@ -26,20 +25,6 @@ export default async function StoryPage({ params }: PageProps) {
   const story = getStoryById(id);
   if (!story) {
     notFound();
-  }
-
-  // Generate summary server-side (cached after first generation)
-  let summary = null;
-  let cached = false;
-  let error = null;
-
-  try {
-    const result = await generateSummary(story);
-    summary = result.summary;
-    cached = result.cached;
-  } catch (err) {
-    error = err instanceof Error ? err.message : 'Failed to generate summary';
-    console.error('Summary generation error:', error);
   }
 
   return (
@@ -86,7 +71,7 @@ export default async function StoryPage({ params }: PageProps) {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* The Delta - Quick comparison */}
+        {/* The Delta - Quick comparison (loads instantly) */}
         <div className="mb-8">
           <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
             <span className="text-2xl">⚡</span>
@@ -206,32 +191,8 @@ export default async function StoryPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Balanced Summary badge */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold flex items-center gap-2">
-            <span className="text-2xl">📖</span>
-            Full Balanced Summary
-          </h2>
-          {cached && (
-            <span className="text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-1 rounded font-medium">
-              ⚡ Cached
-            </span>
-          )}
-        </div>
-
-        {/* Content area */}
-        <div className="cartoon-border bg-white dark:bg-[#151515] p-6 md:p-8">
-          {error ? (
-            <div className="text-center py-8">
-              <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-              <p className="text-sm text-gray-500">
-                Make sure ANTHROPIC_API_KEY is set in your environment.
-              </p>
-            </div>
-          ) : summary ? (
-            <BalancedSummary summary={summary} />
-          ) : null}
-        </div>
+        {/* Summary Section - Client component with prefetch support */}
+        <SummarySection story={story} />
 
         {/* Source Headlines Section */}
         <div className="mt-8">
