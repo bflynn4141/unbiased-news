@@ -47,6 +47,7 @@ export const mockStories: Story[] = [
         probability: 0.80,
         volume: 11000000,
         url: 'https://polymarket.com/event/will-there-be-another-us-government-shutdown-by-january-31',
+        updatedAt: new Date(Date.now() - 300000).toISOString(), // 5 min ago
       },
     ],
   },
@@ -118,6 +119,7 @@ export const mockStories: Story[] = [
         probability: 0.99,
         volume: 471000000,
         url: 'https://polymarket.com/event/fed-decision-in-january',
+        updatedAt: new Date(Date.now() - 1800000).toISOString(), // 30 min ago
       },
     ],
   },

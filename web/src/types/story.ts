@@ -26,6 +26,7 @@ export interface PredictionMarket {
   probability: number;
   volume: number;
   url: string;
+  updatedAt: string; // ISO timestamp of last price update
 }
 
 export interface Story {

@@ -226,12 +226,26 @@ export default function StoryPage() {
               {story.predictionMarkets && story.predictionMarkets.length > 0 && (
                 <div className="mt-4 p-3 border-2 border-dashed border-gray-400 rounded-lg">
                   <h3 className="font-bold text-sm mb-2">📊 What Bettors Think</h3>
-                  {story.predictionMarkets.map((market, i) => (
-                    <div key={i} className="flex items-center justify-between text-sm">
-                      <span className="text-gray-700 dark:text-gray-300">{market.question}</span>
-                      <span className="font-bold">{Math.round(market.probability * 100)}%</span>
-                    </div>
-                  ))}
+                  {story.predictionMarkets.map((market, i) => {
+                    const updatedAgo = Math.floor((Date.now() - new Date(market.updatedAt).getTime()) / 60000);
+                    const timeLabel = updatedAgo < 60 ? `${updatedAgo}m ago` : `${Math.floor(updatedAgo / 60)}h ago`;
+                    return (
+                      <div key={i} className="flex items-center justify-between text-sm gap-3">
+                        <a
+                          href={market.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:underline flex-1"
+                        >
+                          {market.question} ↗
+                        </a>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="text-xs text-gray-500">{timeLabel}</span>
+                          <span className="font-bold">{Math.round(market.probability * 100)}%</span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
