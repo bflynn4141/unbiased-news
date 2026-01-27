@@ -64,3 +64,18 @@ temp/
 *.pem
 *.key
 secrets/
+config.local.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+*.egg
+.Python
+venv/
+env/
+
+# User data (contains your saved articles)
+data/
