@@ -4,6 +4,7 @@ import { Story } from '@/types/story';
 import { VelocityIndicator } from './VelocityIndicator';
 import { BiasSpectrum } from './BiasSpectrum';
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface StoryCardProps {
   story: Story;
@@ -172,13 +173,21 @@ export function StoryCard({ story, rank }: StoryCardProps) {
         </div>
       )}
 
-      {/* Expand/collapse bar */}
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full py-2 text-xs font-bold text-gray-500 hover:text-black dark:hover:text-white border-t-2 border-black dark:border-white bg-gray-100 dark:bg-[#0a0a0a] transition-colors"
-      >
-        {expanded ? '▲ Collapse' : '▼ See the Delta'}
-      </button>
+      {/* Action bar */}
+      <div className="flex border-t-2 border-black dark:border-white">
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="flex-1 py-2 text-xs font-bold text-gray-500 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#0a0a0a] transition-colors"
+        >
+          {expanded ? '▲ Collapse' : '▼ See the Delta'}
+        </button>
+        <Link
+          href={`/story/${story.id}`}
+          className="flex-1 py-2 text-xs font-bold text-center text-gray-500 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#0a0a0a] border-l-2 border-black dark:border-white transition-colors"
+        >
+          📖 Full Summary
+        </Link>
+      </div>
     </div>
   );
 }

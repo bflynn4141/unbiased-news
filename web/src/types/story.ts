@@ -44,3 +44,45 @@ export interface Story {
     right: number;
   };
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Balanced Summary Types (Wikipedia NPOV-style comprehensive summaries)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface TimelineEvent {
+  date: string;
+  event: string;
+  sources: string[];
+}
+
+export interface KeyFigure {
+  name: string;
+  role: string;
+  background: string;
+  sources: string[];
+}
+
+export interface VerifiedFact {
+  fact: string;
+  sources: string[];
+}
+
+export interface DisputedTopic {
+  topic: string;
+  perspectives: {
+    source: string;
+    position: string;
+  }[];
+}
+
+export interface BalancedSummary {
+  overview: string;
+  timeline: TimelineEvent[];
+  keyFigures: KeyFigure[];
+  verifiedFacts: VerifiedFact[];
+  disputed: DisputedTopic[];
+  context: string;
+  unclearQuestions: string[];
+  generatedAt: string;
+  sourceCount: number;
+}
