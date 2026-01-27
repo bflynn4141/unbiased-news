@@ -3,7 +3,6 @@
 import { Story } from '@/types/story';
 import { VelocityIndicator } from './VelocityIndicator';
 import { BiasSpectrum } from './BiasSpectrum';
-import { useState } from 'react';
 import Link from 'next/link';
 
 interface StoryCardProps {
@@ -12,8 +11,6 @@ interface StoryCardProps {
 }
 
 export function StoryCard({ story, rank }: StoryCardProps) {
-  const [expanded, setExpanded] = useState(false);
-
   const timeAgo = (date: string) => {
     const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
     if (seconds < 60) return `${seconds}s ago`;
@@ -44,12 +41,11 @@ export function StoryCard({ story, rank }: StoryCardProps) {
           {/* Header row */}
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
-              <h2
-                className="text-lg font-bold leading-tight cursor-pointer hover:underline"
-                onClick={() => setExpanded(!expanded)}
-              >
-                {story.title}
-              </h2>
+              <Link href={`/story/${story.id}`}>
+                <h2 className="text-lg font-bold leading-tight cursor-pointer hover:underline">
+                  {story.title}
+                </h2>
+              </Link>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 {story.summary}
               </p>
@@ -98,95 +94,6 @@ export function StoryCard({ story, rank }: StoryCardProps) {
             <BiasSpectrum coverageBalance={story.coverageBalance} />
           </div>
         </div>
-      </div>
-
-      {/* Expanded view */}
-      {expanded && (
-        <div className="border-t-2 border-black dark:border-white p-4 bg-gray-50 dark:bg-black">
-          {/* The Delta */}
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Left perspective */}
-            <div className="space-y-2">
-              <h3 className="font-bold text-sm flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-xs font-black">L</span>
-                Left Perspective
-              </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 pl-8">
-                {story.analysis.leftPerspective}
-              </p>
-            </div>
-
-            {/* Right perspective */}
-            <div className="space-y-2">
-              <h3 className="font-bold text-sm flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-xs font-black">R</span>
-                Right Perspective
-              </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 pl-8">
-                {story.analysis.rightPerspective}
-              </p>
-            </div>
-          </div>
-
-          {/* Agreed Facts */}
-          <div className="mt-6">
-            <h3 className="font-bold text-sm mb-2">✅ Agreed Facts</h3>
-            <ul className="text-sm space-y-1 pl-6">
-              {story.analysis.agreedFacts.map((fact, i) => (
-                <li key={i} className="text-gray-700 dark:text-gray-300">• {fact}</li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Key Differences */}
-          <div className="mt-4">
-            <h3 className="font-bold text-sm mb-2">⚡ Key Differences</h3>
-            <ul className="text-sm space-y-1 pl-6">
-              {story.analysis.keyDifferences.map((diff, i) => (
-                <li key={i} className="text-gray-700 dark:text-gray-300">• {diff}</li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Unanswered Questions */}
-          <div className="mt-4">
-            <h3 className="font-bold text-sm mb-2">❓ Unanswered Questions</h3>
-            <ul className="text-sm space-y-1 pl-6">
-              {story.analysis.unansweredQuestions.map((q, i) => (
-                <li key={i} className="text-gray-700 dark:text-gray-300">• {q}</li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Prediction Markets (if available) */}
-          {story.predictionMarkets && story.predictionMarkets.length > 0 && (
-            <div className="mt-4 p-3 border-2 border-dashed border-gray-400 rounded-lg">
-              <h3 className="font-bold text-sm mb-2">📊 What Bettors Think</h3>
-              {story.predictionMarkets.map((market, i) => (
-                <div key={i} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-700 dark:text-gray-300">{market.question}</span>
-                  <span className="font-bold">{Math.round(market.probability * 100)}%</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Action bar */}
-      <div className="flex border-t-2 border-black dark:border-white">
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="flex-1 py-2 text-xs font-bold text-gray-500 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#0a0a0a] transition-colors"
-        >
-          {expanded ? '▲ Collapse' : '▼ See the Delta'}
-        </button>
-        <Link
-          href={`/story/${story.id}`}
-          className="flex-1 py-2 text-xs font-bold text-center text-gray-500 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#0a0a0a] border-l-2 border-black dark:border-white transition-colors"
-        >
-          📖 Full Summary
-        </Link>
       </div>
     </div>
   );

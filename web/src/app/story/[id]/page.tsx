@@ -152,11 +152,90 @@ export default function StoryPage() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Summary badge */}
+        {/* The Delta - Quick comparison */}
+        {story && (
+          <div className="mb-8">
+            <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+              <span className="text-2xl">⚡</span>
+              The Delta
+            </h2>
+            <div className="cartoon-border bg-white dark:bg-[#151515] p-6">
+              {/* Two perspectives side by side */}
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                {/* Left perspective */}
+                <div className="space-y-2">
+                  <h3 className="font-bold text-sm flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-xs font-black">L</span>
+                    Left Perspective
+                  </h3>
+                  <p className="text-sm text-gray-700 dark:text-gray-300 pl-8">
+                    {story.analysis.leftPerspective}
+                  </p>
+                </div>
+
+                {/* Right perspective */}
+                <div className="space-y-2">
+                  <h3 className="font-bold text-sm flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-xs font-black">R</span>
+                    Right Perspective
+                  </h3>
+                  <p className="text-sm text-gray-700 dark:text-gray-300 pl-8">
+                    {story.analysis.rightPerspective}
+                  </p>
+                </div>
+              </div>
+
+              {/* Agreed Facts */}
+              <div className="border-t-2 border-gray-200 dark:border-gray-700 pt-4">
+                <h3 className="font-bold text-sm mb-2">✅ Agreed Facts</h3>
+                <ul className="text-sm space-y-1 pl-6">
+                  {story.analysis.agreedFacts.map((fact, i) => (
+                    <li key={i} className="text-gray-700 dark:text-gray-300">• {fact}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Key Differences */}
+              <div className="mt-4">
+                <h3 className="font-bold text-sm mb-2">🔀 Key Differences</h3>
+                <ul className="text-sm space-y-1 pl-6">
+                  {story.analysis.keyDifferences.map((diff, i) => (
+                    <li key={i} className="text-gray-700 dark:text-gray-300">• {diff}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Unanswered Questions */}
+              <div className="mt-4">
+                <h3 className="font-bold text-sm mb-2">❓ Unanswered Questions</h3>
+                <ul className="text-sm space-y-1 pl-6">
+                  {story.analysis.unansweredQuestions.map((q, i) => (
+                    <li key={i} className="text-gray-700 dark:text-gray-300">• {q}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Prediction Markets (if available) */}
+              {story.predictionMarkets && story.predictionMarkets.length > 0 && (
+                <div className="mt-4 p-3 border-2 border-dashed border-gray-400 rounded-lg">
+                  <h3 className="font-bold text-sm mb-2">📊 What Bettors Think</h3>
+                  {story.predictionMarkets.map((market, i) => (
+                    <div key={i} className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700 dark:text-gray-300">{market.question}</span>
+                      <span className="font-bold">{Math.round(market.probability * 100)}%</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Balanced Summary badge */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold flex items-center gap-2">
             <span className="text-2xl">📖</span>
-            Balanced Summary
+            Full Balanced Summary
           </h2>
           {cached && (
             <span className="text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-1 rounded font-medium">
