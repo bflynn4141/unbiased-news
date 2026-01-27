@@ -79,3 +79,4 @@ env/
 
 # User data (contains your saved articles)
 data/
+.vercel
