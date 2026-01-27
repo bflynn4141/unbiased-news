@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* Disney/Cartoon Black & White Theme */
+:root {
+  --background: #fefefe;
+  --foreground: #1a1a1a;
+  --accent: #000000;
+  --muted: #888888;
+  --border: #e0e0e0;
+  --card-bg: #ffffff;
+  --hover-bg: #f5f5f5;
+
+  /* Velocity colors */
+  --velocity-fast: #ff6b6b;
+  --velocity-medium: #feca57;
+  --velocity-slow: #48dbfb;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Dark mode - maintain B&W cartoon feel */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #f0f0f0;
+    --accent: #ffffff;
+    --muted: #888888;
+    --border: #333333;
+    --card-bg: #151515;
+    --hover-bg: #1a1a1a;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Cartoon-style borders */
+.cartoon-border {
+  border: 3px solid var(--foreground);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0px var(--foreground);
+  transition: all 0.15s ease;
+}
+
+.cartoon-border:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--foreground);
+}
+
+/* Velocity indicator pulse animation */
+@keyframes pulse-fast {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+@keyframes pulse-medium {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.velocity-fast {
+  animation: pulse-fast 1s ease-in-out infinite;
+}
+
+.velocity-medium {
+  animation: pulse-medium 2s ease-in-out infinite;
+}
+
+/* Reddit-style upvote styling */
+.vote-btn {
+  transition: all 0.1s ease;
+}
+
+.vote-btn:hover {
+  transform: scale(1.2);
+}
+
+.vote-btn:active {
+  transform: scale(0.9);
+}
+
+/* Cartoon speech bubble for bias indicators */
+.speech-bubble {
+  position: relative;
+  background: var(--card-bg);
+  border: 2px solid var(--foreground);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 12px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--foreground);
+}
+
+/* Squiggly underline for emphasis */
+.squiggly {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-underline-offset: 4px;
+}
+
+/* Source badge colors (B&W variations) */
+.source-left {
+  background: #f0f0f0;
+  border: 2px solid #666;
+}
+
+.source-right {
+  background: #1a1a1a;
+  color: white;
+  border: 2px solid #1a1a1a;
+}
+
+.source-center {
+  background: transparent;
+  border: 2px dashed #888;
+}
