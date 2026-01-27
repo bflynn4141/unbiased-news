@@ -1,0 +1,6 @@
+# Core dependencies for Unbiased News MVP
+click>=8.0.0          # CLI framework - makes building command-line tools easy
+rich>=13.0.0          # Pretty terminal output - makes the CLI look nice
+anthropic>=0.18.0     # Claude API - for bias analysis
+beautifulsoup4>=4.12.0  # HTML parsing - for importing saved webpages
+PyPDF2>=3.0.0         # PDF parsing - for importing PDF articles
