@@ -13,10 +13,11 @@ A tool for comparing news articles from different sources and detecting bias.
 
 ## Quick Start
 
-### 1. Install the tool
+### 1. Clone and install
 
 ```bash
-cd /Users/bensparango/Projects/unbiased-news
+git clone https://github.com/bflynn4141/unbiased-news.git
+cd unbiased-news
 pip3 install -e .
 ```
 
@@ -41,6 +42,7 @@ Follow the prompts to enter the headline, source name, and paste the article tex
 | Command | What it does |
 |---------|--------------|
 | `unbiased-news add` | Add a new article by pasting text |
+| `unbiased-news import <path>` | Import articles from HTML, TXT, or PDF files |
 | `unbiased-news list` | See all your saved articles |
 | `unbiased-news view <id>` | Read a specific article |
 | `unbiased-news analyze <id>` | Get a bias score for an article |
@@ -117,11 +119,13 @@ All your articles are saved locally in the `data/` folder as JSON files. No data
 ## Troubleshooting
 
 **"Command not found: unbiased-news"**
-- Make sure you've installed with `pip3 install -e .`
-- Or use the full path: `/Users/bensparango/Library/Python/3.9/bin/unbiased-news`
+- Make sure you've installed with `pip3 install -e .` from the project folder
+- Try running with `python3 -m src.cli` instead
+- Or add your Python bin folder to PATH (usually `~/.local/bin` or check `pip3 show unbiased-news` for location)
 
 **"No Anthropic API key found"**
 - Set your API key: `export ANTHROPIC_API_KEY='your-key-here'`
+- To make it permanent, add that line to your `~/.zshrc` or `~/.bashrc` file
 
 ## Contributing
 
