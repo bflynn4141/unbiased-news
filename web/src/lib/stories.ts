@@ -8,15 +8,15 @@ export const mockStories: Story[] = [
     title: 'Government Shutdown Looms as Democrats Block DHS Funding',
     summary: 'Federal funding expires Jan 31 as immigration enforcement dispute escalates between parties.',
     velocity: 'fast',
-    velocityScore: 78,
+    velocityScore: 12, // 12 new articles in last hour
     updatedAt: new Date(Date.now() - 1800000).toISOString(), // 30 min ago
     sources: [
-      { name: 'Fox News', lean: 'right', biasScore: 78, url: 'https://www.foxnews.com/politics', headline: 'Freedom Caucus to Trump: DHS funding must stay', snippet: 'Conservative members demand full funding for immigration enforcement agencies, citing border security as top priority. Representatives argue that any cuts to ICE or CBP would endanger American communities and undermine the rule of law.', publishedAt: new Date().toISOString() },
-      { name: 'NBC News', lean: 'left-center', biasScore: 32, url: 'https://www.nbcnews.com/politics', headline: 'Democrats threaten to block DHS funding after another killed', snippet: 'Senate Democrats vow opposition to ICE tactics following reports of aggressive enforcement actions in communities. Civil rights groups call for oversight and accountability measures before any funding approval.', publishedAt: new Date().toISOString() },
-      { name: 'CNBC', lean: 'center', biasScore: 51, url: 'https://www.cnbc.com/politics/', headline: 'Government may shut down early Saturday', snippet: 'Tax season delays, federal workers furloughed if no deal reached by Friday midnight. Economic analysts warn of GDP impact and disrupted government services affecting millions of Americans.', publishedAt: new Date().toISOString() },
-      { name: 'PBS', lean: 'center', biasScore: 48, url: 'https://www.pbs.org/newshour/politics', headline: 'Democrats vow to block Homeland Security funding', snippet: 'Bipartisan tensions rise as deadline approaches. Both parties accuse the other of putting politics above national interests as federal employees brace for potential furloughs.', publishedAt: new Date().toISOString() },
-      { name: 'Reuters', lean: 'center', biasScore: 50, url: 'https://www.reuters.com/world/us/', headline: 'U.S. government shutdown looms as parties clash over immigration', snippet: 'With hours until deadline, negotiations remain stalled on Department of Homeland Security funding. Congressional leaders scheduled emergency meeting as markets react to uncertainty.', publishedAt: new Date().toISOString() },
-      { name: 'The Hill', lean: 'center', biasScore: 52, url: 'https://thehill.com/homenews/', headline: 'Shutdown odds rise as DHS funding fight intensifies', snippet: 'Congressional insiders give shutdown 70% probability without last-minute deal. Both parties prepare blame messaging while moderate lawmakers seek compromise solution.', publishedAt: new Date().toISOString() },
+      { name: 'Fox News', lean: 'right', biasScore: 78, url: 'https://www.foxnews.com/politics/freedom-caucus-trump-dhs-funding-must-stay-immigration-enforcement', headline: 'Freedom Caucus to Trump: DHS funding must stay', snippet: 'Conservative members demand full funding for immigration enforcement agencies, citing border security as top priority. Representatives argue that any cuts to ICE or CBP would endanger American communities and undermine the rule of law.', publishedAt: new Date().toISOString() },
+      { name: 'NBC News', lean: 'left-center', biasScore: 32, url: 'https://www.nbcnews.com/politics/congress/democrats-threaten-block-dhs-funding-ice-enforcement-rcna123456', headline: 'Democrats threaten to block DHS funding after another killed', snippet: 'Senate Democrats vow opposition to ICE tactics following reports of aggressive enforcement actions in communities. Civil rights groups call for oversight and accountability measures before any funding approval.', publishedAt: new Date().toISOString() },
+      { name: 'CNBC', lean: 'center', biasScore: 51, url: 'https://www.cnbc.com/2026/01/27/government-shutdown-looms-saturday-dhs-funding.html', headline: 'Government may shut down early Saturday', snippet: 'Tax season delays, federal workers furloughed if no deal reached by Friday midnight. Economic analysts warn of GDP impact and disrupted government services affecting millions of Americans.', publishedAt: new Date().toISOString() },
+      { name: 'PBS', lean: 'center', biasScore: 48, url: 'https://www.pbs.org/newshour/politics/democrats-vow-block-homeland-security-funding-bill', headline: 'Democrats vow to block Homeland Security funding', snippet: 'Bipartisan tensions rise as deadline approaches. Both parties accuse the other of putting politics above national interests as federal employees brace for potential furloughs.', publishedAt: new Date().toISOString() },
+      { name: 'Reuters', lean: 'center', biasScore: 50, url: 'https://www.reuters.com/world/us/us-government-shutdown-looms-parties-clash-immigration-2026-01-27/', headline: 'U.S. government shutdown looms as parties clash over immigration', snippet: 'With hours until deadline, negotiations remain stalled on Department of Homeland Security funding. Congressional leaders scheduled emergency meeting as markets react to uncertainty.', publishedAt: new Date().toISOString() },
+      { name: 'The Hill', lean: 'center', biasScore: 52, url: 'https://thehill.com/homenews/house/shutdown-odds-rise-dhs-funding-fight-intensifies', headline: 'Shutdown odds rise as DHS funding fight intensifies', snippet: 'Congressional insiders give shutdown 70% probability without last-minute deal. Both parties prepare blame messaging while moderate lawmakers seek compromise solution.', publishedAt: new Date().toISOString() },
     ],
     analysis: {
       leftPerspective: 'The Trump administration is using ICE to conduct abusive raids that "rip apart families" and violate due process. Democrats are standing up for immigrant rights and oversight.',
@@ -40,19 +40,28 @@ export const mockStories: Story[] = [
       ],
     },
     coverageBalance: { left: 35, center: 30, right: 35 },
+    predictionMarkets: [
+      {
+        platform: 'polymarket',
+        question: 'Will there be a US government shutdown by January 31?',
+        probability: 0.80,
+        volume: 11000000,
+        url: 'https://polymarket.com/event/will-there-be-another-us-government-shutdown-by-january-31',
+      },
+    ],
   },
   {
     id: '2',
     title: 'Trump Signs Executive Orders on Day One',
     summary: 'New administration begins with sweeping policy changes on immigration, energy, and federal workforce.',
     velocity: 'medium',
-    velocityScore: 45,
+    velocityScore: 5, // 5 new articles today
     updatedAt: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
     sources: [
-      { name: 'CNN', lean: 'left-center', biasScore: 35, url: 'https://www.cnn.com/politics', headline: 'Trump signs flurry of executive orders', snippet: 'Critics call moves unconstitutional as new president signs record number of day-one actions. Legal experts warn several orders will face immediate court challenges.', publishedAt: new Date().toISOString() },
-      { name: 'Wall Street Journal', lean: 'right-center', biasScore: 62, url: 'https://www.wsj.com/politics', headline: 'Trump moves quickly on policy priorities', snippet: 'Markets react positively to deregulation signals. Business leaders praise decisive action on energy permits and federal hiring freeze.', publishedAt: new Date().toISOString() },
-      { name: 'AP News', lean: 'center', biasScore: 50, url: 'https://apnews.com/politics', headline: 'Trump signs executive orders on first day', snippet: 'Orders cover immigration, energy, federal hiring freeze, and withdrawal from international agreements. Total count exceeds any previous inauguration day.', publishedAt: new Date().toISOString() },
-      { name: 'New York Times', lean: 'left-center', biasScore: 33, url: 'https://www.nytimes.com/section/politics', headline: 'Trump wastes no time reshaping government', snippet: 'Sweeping orders target immigration policy, environmental regulations, and diversity programs. Civil rights organizations announce legal challenges.', publishedAt: new Date().toISOString() },
+      { name: 'CNN', lean: 'left-center', biasScore: 35, url: 'https://www.cnn.com/2026/01/20/politics/trump-executive-orders-day-one-flurry/index.html', headline: 'Trump signs flurry of executive orders', snippet: 'Critics call moves unconstitutional as new president signs record number of day-one actions. Legal experts warn several orders will face immediate court challenges.', publishedAt: new Date().toISOString() },
+      { name: 'Wall Street Journal', lean: 'right-center', biasScore: 62, url: 'https://www.wsj.com/politics/trump-moves-quickly-policy-priorities-executive-orders-2026', headline: 'Trump moves quickly on policy priorities', snippet: 'Markets react positively to deregulation signals. Business leaders praise decisive action on energy permits and federal hiring freeze.', publishedAt: new Date().toISOString() },
+      { name: 'AP News', lean: 'center', biasScore: 50, url: 'https://apnews.com/article/trump-executive-orders-inauguration-day-immigration-energy-abc123def456', headline: 'Trump signs executive orders on first day', snippet: 'Orders cover immigration, energy, federal hiring freeze, and withdrawal from international agreements. Total count exceeds any previous inauguration day.', publishedAt: new Date().toISOString() },
+      { name: 'New York Times', lean: 'left-center', biasScore: 33, url: 'https://www.nytimes.com/2026/01/20/us/politics/trump-executive-orders-reshaping-government.html', headline: 'Trump wastes no time reshaping government', snippet: 'Sweeping orders target immigration policy, environmental regulations, and diversity programs. Civil rights organizations announce legal challenges.', publishedAt: new Date().toISOString() },
     ],
     analysis: {
       leftPerspective: 'Trump is bypassing Congress with a "flurry" of executive orders, many of which are likely unconstitutional. Critics warn of authoritarian overreach.',
@@ -78,12 +87,12 @@ export const mockStories: Story[] = [
     title: 'Fed Rate Decision Expected Wednesday',
     summary: 'Markets anticipate Federal Reserve will hold rates steady amid mixed economic signals.',
     velocity: 'slow',
-    velocityScore: 15,
+    velocityScore: 2, // 2 new articles today (stable story)
     updatedAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
     sources: [
-      { name: 'Bloomberg', lean: 'center', biasScore: 52, url: 'https://www.bloomberg.com/markets', headline: 'Fed expected to hold rates in January', snippet: 'Inflation data supports pause in cuts as Fed officials signal patience. Markets pricing in no change at upcoming FOMC meeting.', publishedAt: new Date().toISOString() },
-      { name: 'Reuters', lean: 'center', biasScore: 50, url: 'https://www.reuters.com/markets/', headline: 'Federal Reserve rate decision looms', snippet: 'Economic indicators point to steady policy as central bank balances growth and inflation concerns. Employment remains strong while price pressures ease.', publishedAt: new Date().toISOString() },
-      { name: 'Financial Times', lean: 'center', biasScore: 53, url: 'https://www.ft.com/markets', headline: 'Fed to stand pat amid economic uncertainty', snippet: 'Central bankers eye tariff implications and fiscal policy changes. Minutes from December meeting revealed divided opinions on rate path.', publishedAt: new Date().toISOString() },
+      { name: 'Bloomberg', lean: 'center', biasScore: 52, url: 'https://www.bloomberg.com/news/articles/2026-01-27/fed-expected-hold-rates-january-inflation-data', headline: 'Fed expected to hold rates in January', snippet: 'Inflation data supports pause in cuts as Fed officials signal patience. Markets pricing in no change at upcoming FOMC meeting.', publishedAt: new Date().toISOString() },
+      { name: 'Reuters', lean: 'center', biasScore: 50, url: 'https://www.reuters.com/markets/us/federal-reserve-rate-decision-looms-2026-01-27/', headline: 'Federal Reserve rate decision looms', snippet: 'Economic indicators point to steady policy as central bank balances growth and inflation concerns. Employment remains strong while price pressures ease.', publishedAt: new Date().toISOString() },
+      { name: 'Financial Times', lean: 'center', biasScore: 53, url: 'https://www.ft.com/content/fed-stand-pat-economic-uncertainty-january-2026', headline: 'Fed to stand pat amid economic uncertainty', snippet: 'Central bankers eye tariff implications and fiscal policy changes. Minutes from December meeting revealed divided opinions on rate path.', publishedAt: new Date().toISOString() },
     ],
     analysis: {
       leftPerspective: 'The Fed should prioritize employment and avoid choking off economic recovery with premature rate hikes.',
@@ -102,6 +111,15 @@ export const mockStories: Story[] = [
       ],
     },
     coverageBalance: { left: 20, center: 60, right: 20 },
+    predictionMarkets: [
+      {
+        platform: 'polymarket',
+        question: 'Fed keeps rates unchanged in January?',
+        probability: 0.99,
+        volume: 471000000,
+        url: 'https://polymarket.com/event/fed-decision-in-january',
+      },
+    ],
   },
 ];
 

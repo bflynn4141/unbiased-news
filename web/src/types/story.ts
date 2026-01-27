@@ -33,7 +33,7 @@ export interface Story {
   title: string;
   summary: string;
   velocity: StoryVelocity;
-  velocityScore: number; // 1-100, how fast story is developing
+  velocityScore: number; // Number of new articles (fast=last hour, medium=today)
   updatedAt: string;
   sources: Source[];
   analysis: BiasAnalysis;

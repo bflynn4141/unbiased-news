@@ -4,7 +4,7 @@ import { StoryVelocity } from '@/types/story';
 
 interface VelocityIndicatorProps {
   velocity: StoryVelocity;
-  score: number;
+  score: number; // Now represents number of new articles
 }
 
 export function VelocityIndicator({ velocity, score }: VelocityIndicatorProps) {
@@ -12,24 +12,24 @@ export function VelocityIndicator({ velocity, score }: VelocityIndicatorProps) {
     switch (velocity) {
       case 'fast':
         return {
-          label: '🔥 MOVING FAST',
+          label: '🔥 BREAKING',
           color: 'bg-red-500',
           animation: 'velocity-fast',
-          description: `${score}% change in last hour`,
+          description: `${score} new articles in last hour`,
         };
       case 'medium':
         return {
           label: '📈 Developing',
           color: 'bg-yellow-500',
           animation: 'velocity-medium',
-          description: 'Steady updates',
+          description: `${score} new articles today`,
         };
       case 'slow':
         return {
           label: '📰 Stable',
           color: 'bg-blue-400',
           animation: '',
-          description: 'No major changes',
+          description: 'No major updates',
         };
     }
   };
