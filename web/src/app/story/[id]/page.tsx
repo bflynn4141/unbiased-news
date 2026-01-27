@@ -106,7 +106,7 @@ export default function StoryPage() {
         </div>
       </header>
 
-      {/* Story Header */}
+      {/* Story Header - Clean and minimal */}
       {story && (
         <div className="border-b-2 border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a0a0a]">
           <div className="max-w-4xl mx-auto px-4 py-6">
@@ -117,34 +117,12 @@ export default function StoryPage() {
               {story.summary}
             </p>
 
-            {/* Meta info */}
+            {/* Minimal meta */}
             <div className="flex flex-wrap items-center gap-4 text-sm">
               <VelocityIndicator velocity={story.velocity} score={story.velocityScore} />
               <span className="text-gray-500">
                 {story.sources.length} sources
               </span>
-              <div className="w-32">
-                <BiasSpectrum coverageBalance={story.coverageBalance} />
-              </div>
-            </div>
-
-            {/* Source pills */}
-            <div className="flex flex-wrap gap-2 mt-4">
-              {story.sources.map((source, i) => {
-                const bias = getBiasLabel(source.biasScore);
-                return (
-                  <a
-                    key={i}
-                    href={source.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium transition-all hover:scale-105 ${bias.class}`}
-                  >
-                    <span className="font-bold">{bias.label}</span>
-                    <span>{source.name}</span>
-                  </a>
-                );
-              })}
             </div>
           </div>
         </div>
@@ -160,6 +138,35 @@ export default function StoryPage() {
               The Delta
             </h2>
             <div className="cartoon-border bg-white dark:bg-[#151515] p-6">
+              {/* Coverage Balance Section */}
+              <div className="mb-6 pb-6 border-b-2 border-gray-200 dark:border-gray-700">
+                <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+                  <h3 className="font-bold text-sm">Coverage Balance</h3>
+                  <div className="flex-1 max-w-xs">
+                    <BiasSpectrum coverageBalance={story.coverageBalance} />
+                  </div>
+                </div>
+
+                {/* Source pills */}
+                <div className="flex flex-wrap gap-2">
+                  {story.sources.map((source, i) => {
+                    const bias = getBiasLabel(source.biasScore);
+                    return (
+                      <a
+                        key={i}
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium transition-all hover:scale-105 ${bias.class}`}
+                      >
+                        <span className="font-bold">{bias.label}</span>
+                        <span>{source.name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Two perspectives side by side */}
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 {/* Left perspective */}
