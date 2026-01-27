@@ -3,7 +3,6 @@
 import { useRef, useCallback } from 'react';
 import { Story } from '@/types/story';
 import { VelocityIndicator } from './VelocityIndicator';
-import { BiasSpectrum } from './BiasSpectrum';
 import { prefetchSummary } from '@/lib/prefetch';
 import Link from 'next/link';
 
@@ -21,14 +20,6 @@ export function StoryCard({ story, rank }: StoryCardProps) {
     if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
     if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
     return `${Math.floor(seconds / 86400)}d ago`;
-  };
-
-  const getBiasLabel = (score: number) => {
-    if (score <= 30) return { label: 'L', class: 'source-left' };
-    if (score <= 45) return { label: 'LC', class: 'source-left' };
-    if (score <= 55) return { label: 'C', class: 'source-center' };
-    if (score <= 70) return { label: 'RC', class: 'source-right' };
-    return { label: 'R', class: 'source-right' };
   };
 
   // Prefetch on hover with 100ms delay
@@ -94,33 +85,27 @@ export function StoryCard({ story, rank }: StoryCardProps) {
             </span>
           </div>
 
-          {/* Source pills */}
-          <div className="flex flex-wrap gap-2 mt-3">
-            {story.sources.slice(0, 5).map((source, i) => {
-              const bias = getBiasLabel(source.biasScore);
-              return (
-                <a
-                  key={i}
-                  href={source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium transition-all hover:scale-105 ${bias.class}`}
-                >
-                  <span className="font-bold">{bias.label}</span>
-                  <span>{source.name}</span>
-                </a>
-              );
-            })}
-            {story.sources.length > 5 && (
-              <span className="text-xs text-gray-500 self-center">
-                +{story.sources.length - 5} more
-              </span>
+          {/* Prediction Market */}
+          <div className="mt-3 text-sm">
+            {story.predictionMarkets && story.predictionMarkets.length > 0 ? (
+              <a
+                href={story.predictionMarkets[0].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition"
+              >
+                <span>📊</span>
+                <span className="font-bold text-black dark:text-white">
+                  {Math.round(story.predictionMarkets[0].probability * 100)}%
+                </span>
+                <span className="truncate">{story.predictionMarkets[0].question}</span>
+              </a>
+            ) : (
+              <div className="flex items-center gap-2 text-gray-400 dark:text-gray-500">
+                <span>📊</span>
+                <span>No prediction markets for this story</span>
+              </div>
             )}
-          </div>
-
-          {/* Bias spectrum */}
-          <div className="mt-4 max-w-xs">
-            <BiasSpectrum coverageBalance={story.coverageBalance} />
           </div>
         </div>
       </div>
