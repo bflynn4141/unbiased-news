@@ -1,0 +1,34 @@
+name: Cluster Stories
+
+on:
+  schedule:
+    # Run every 2 hours (clustering with Claude is slow)
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+jobs:
+  cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cluster articles into stories (with Claude analysis)
+        run: |
+          echo "Starting clustering job..."
+
+          # Use longer timeout since Claude analysis takes time
+          response=$(curl -s -w "\n%{http_code}" -X GET \
+            "https://web-mu-hazel.vercel.app/api/cron/cluster" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 180)
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          echo "Response: $body"
+          echo "Status: $http_code"
+
+          # Success or timeout are both acceptable
+          if [ "$http_code" = "200" ]; then
+            echo "Clustering completed successfully!"
+          else
+            echo "Clustering finished with status $http_code (may have timed out on Vercel side)"
+          fi

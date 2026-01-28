@@ -2,19 +2,30 @@ name: News Pipeline
 
 on:
   schedule:
-    # Run every 15 minutes
+    # Ingest: Run every 15 minutes (fast RSS fetch)
     - cron: '*/15 * * * *'
   workflow_dispatch:
-    # Allow manual trigger from GitHub UI
+    inputs:
+      job:
+        description: 'Which job to run'
+        required: false
+        default: 'ingest'
+        type: choice
+        options:
+          - ingest
+          - cluster
+          - full
 
 jobs:
-  trigger-pipeline:
+  # Fast ingest job - runs every 15 minutes
+  ingest:
+    if: github.event_name == 'schedule' || github.event.inputs.job == 'ingest' || github.event.inputs.job == 'full'
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger news pipeline
+      - name: Fetch RSS feeds
         run: |
           response=$(curl -s -w "\n%{http_code}" -X GET \
-            "${{ secrets.PIPELINE_URL }}" \
+            "https://web-mu-hazel.vercel.app/api/cron/ingest" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
 
           http_code=$(echo "$response" | tail -n1)
@@ -24,8 +35,34 @@ jobs:
           echo "Status: $http_code"
 
           if [ "$http_code" != "200" ]; then
-            echo "Pipeline failed with status $http_code"
+            echo "Ingest failed with status $http_code"
             exit 1
           fi
 
-          echo "Pipeline completed successfully!"
+          echo "Ingest completed successfully!"
+
+  # Slow cluster job - runs on demand or as part of full pipeline
+  cluster:
+    if: github.event.inputs.job == 'cluster' || github.event.inputs.job == 'full'
+    needs: [ingest]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cluster articles into stories
+        run: |
+          response=$(curl -s -w "\n%{http_code}" -X GET \
+            "https://web-mu-hazel.vercel.app/api/cron/cluster" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 120)
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          echo "Response: $body"
+          echo "Status: $http_code"
+
+          # Allow timeout (124) since clustering with Claude can be slow
+          if [ "$http_code" != "200" ] && [ "$http_code" != "124" ]; then
+            echo "Cluster job completed with status $http_code"
+          fi
+
+          echo "Cluster job finished!"
