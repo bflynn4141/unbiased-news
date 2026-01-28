@@ -62,27 +62,30 @@ export async function GET(request: Request) {
     const unclustered = await getUnclusteredArticles();
 
     if (unclustered.length >= 3) {
-      const newStories = await clusterIntoStories(unclustered);
+      const clusterResult = await clusterIntoStories(unclustered);
+      const newStories = clusterResult.stories;
 
       // Save new stories
       for (const story of newStories) {
         await saveStory(story);
       }
 
-      // Mark articles as clustered
-      const clusteredIds = unclustered
-        .filter(a => newStories.some(s => s.articles.some(sa => sa.id === a.id)))
-        .map(a => a.id);
-
-      if (clusteredIds.length > 0) {
-        await markArticlesClustered(clusteredIds);
+      // Mark articles as clustered - iterate through each story's articles
+      for (const [storyId, articleIds] of clusterResult.clusteredArticleIds) {
+        if (articleIds.length > 0) {
+          await markArticlesClustered(articleIds, storyId);
+        }
       }
+
+      const totalClustered = Array.from(clusterResult.clusteredArticleIds.values())
+        .reduce((sum, ids) => sum + ids.length, 0);
 
       results.cluster = {
         articlesProcessed: unclustered.length,
+        articlesClustered: totalClustered,
         storiesCreated: newStories.length,
       };
-      console.log(`[Pipeline] Created ${newStories.length} stories from ${unclustered.length} articles`);
+      console.log(`[Pipeline] Created ${newStories.length} stories from ${totalClustered} clustered articles`);
     } else {
       results.cluster = {
         articlesProcessed: unclustered.length,

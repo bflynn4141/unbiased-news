@@ -1,0 +1,31 @@
+name: News Pipeline
+
+on:
+  schedule:
+    # Run every 15 minutes
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    # Allow manual trigger from GitHub UI
+
+jobs:
+  trigger-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger news pipeline
+        run: |
+          response=$(curl -s -w "\n%{http_code}" -X GET \
+            "${{ secrets.PIPELINE_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          echo "Response: $body"
+          echo "Status: $http_code"
+
+          if [ "$http_code" != "200" ]; then
+            echo "Pipeline failed with status $http_code"
+            exit 1
+          fi
+
+          echo "Pipeline completed successfully!"
