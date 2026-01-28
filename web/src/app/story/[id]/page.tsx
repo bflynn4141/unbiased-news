@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getStoryById } from '@/lib/stories';
+import { getStoryById } from '@/lib/db/stories';
 import { SummarySection } from '@/components/SummarySection';
 import { BiasSpectrum } from '@/components/BiasSpectrum';
 import { VelocityIndicator } from '@/components/VelocityIndicator';
@@ -21,8 +21,8 @@ function getBiasLabel(score: number) {
 export default async function StoryPage({ params }: PageProps) {
   const { id } = await params;
 
-  // Get story data
-  const story = getStoryById(id);
+  // Get story data from database (falls back to mock data if KV unavailable)
+  const story = await getStoryById(id);
   if (!story) {
     notFound();
   }

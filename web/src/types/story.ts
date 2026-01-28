@@ -1,5 +1,28 @@
 export type PoliticalLean = 'left' | 'left-center' | 'center' | 'right-center' | 'right';
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Article Types (Raw ingested articles before clustering into stories)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface Article {
+  id: string; // Hash of URL for deduplication
+  title: string;
+  description: string | null;
+  content: string | null; // Truncated content from NewsAPI
+  url: string;
+  urlToImage: string | null;
+  publishedAt: string; // ISO timestamp
+  source: {
+    id: string | null;
+    name: string;
+  };
+  // Enriched fields (added during ingestion)
+  biasScore: number;
+  lean: PoliticalLean;
+  ingestedAt: string; // When we fetched it
+  storyId?: string; // Set after clustering
+}
+
 export type StoryVelocity = 'fast' | 'medium' | 'slow';
 
 export interface Source {

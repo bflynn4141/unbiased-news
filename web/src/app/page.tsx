@@ -1,7 +1,9 @@
 import { StoryCard } from '@/components/StoryCard';
-import { mockStories } from '@/lib/stories';
+import { getStories } from '@/lib/db/stories';
 
-export default function Home() {
+export default async function Home() {
+  // Fetch stories from database (falls back to mock data if KV unavailable)
+  const stories = await getStories();
   return (
     <div className="min-h-screen bg-[var(--background)]">
       {/* Header */}
@@ -41,7 +43,7 @@ export default function Home() {
       {/* Feed */}
       <main className="max-w-3xl mx-auto px-4 py-6">
         <div className="space-y-4">
-          {mockStories.map((story, index) => (
+          {stories.map((story, index) => (
             <StoryCard key={story.id} story={story} rank={index + 1} />
           ))}
         </div>
