@@ -3,16 +3,8 @@
   "framework": "nextjs",
   "crons": [
     {
-      "path": "/api/cron/ingest",
-      "schedule": "0 * * * *"
-    },
-    {
-      "path": "/api/cron/cluster",
-      "schedule": "5 * * * *"
-    },
-    {
-      "path": "/api/cron/markets",
-      "schedule": "*/15 * * * *"
+      "path": "/api/cron/pipeline",
+      "schedule": "0 8 * * *"
     }
   ]
 }
