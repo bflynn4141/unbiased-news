@@ -15,31 +15,84 @@ import { Article, PoliticalLean } from '@/types/story';
 import { getSourceBias } from './sources';
 
 /**
- * Political news RSS feeds from major outlets
+ * News RSS feeds from major outlets
  * Mix of left, center, and right-leaning sources for balance
+ * Expanded to 35+ sources across multiple categories
  */
 export const RSS_FEEDS: { name: string; url: string; category: string }[] = [
-  // Center/Wire Services
+  // ═══════════════════════════════════════════════════════════════════════════
+  // CENTER / WIRE SERVICES (Most neutral, fact-focused)
+  // ═══════════════════════════════════════════════════════════════════════════
   { name: 'AP News', url: 'https://rsshub.app/apnews/topics/politics', category: 'politics' },
   { name: 'Reuters', url: 'https://www.reutersagency.com/feed/?taxonomy=best-topics&post_type=best', category: 'general' },
+  { name: 'BBC News', url: 'https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml', category: 'world' },
 
-  // Center-Left
+  // ═══════════════════════════════════════════════════════════════════════════
+  // CENTER-LEFT (Mainstream, slightly left-leaning)
+  // ═══════════════════════════════════════════════════════════════════════════
   { name: 'NPR Politics', url: 'https://feeds.npr.org/1014/rss.xml', category: 'politics' },
   { name: 'PBS NewsHour', url: 'https://www.pbs.org/newshour/feeds/rss/politics', category: 'politics' },
   { name: 'The Hill', url: 'https://thehill.com/feed/', category: 'politics' },
+  { name: 'Politico', url: 'https://www.politico.com/rss/politicopicks.xml', category: 'politics' },
+  { name: 'ABC News', url: 'https://abcnews.go.com/abcnews/politicsheadlines', category: 'politics' },
+  { name: 'CBS News', url: 'https://www.cbsnews.com/latest/rss/politics', category: 'politics' },
 
-  // Left-Leaning
+  // ═══════════════════════════════════════════════════════════════════════════
+  // LEFT-LEANING (Progressive/liberal mainstream)
+  // ═══════════════════════════════════════════════════════════════════════════
   { name: 'CNN Politics', url: 'http://rss.cnn.com/rss/cnn_allpolitics.rss', category: 'politics' },
   { name: 'NBC News', url: 'https://feeds.nbcnews.com/nbcnews/public/politics', category: 'politics' },
   { name: 'Washington Post', url: 'https://feeds.washingtonpost.com/rss/politics', category: 'politics' },
+  { name: 'New York Times', url: 'https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml', category: 'politics' },
+  { name: 'The Guardian US', url: 'https://www.theguardian.com/us-news/rss', category: 'politics' },
+  { name: 'LA Times', url: 'https://www.latimes.com/politics/rss2.0.xml', category: 'politics' },
+  { name: 'MSNBC', url: 'https://www.msnbc.com/feeds/latest', category: 'politics' },
 
-  // Right-Leaning
+  // ═══════════════════════════════════════════════════════════════════════════
+  // CENTER-RIGHT (Business-focused, fiscally conservative)
+  // ═══════════════════════════════════════════════════════════════════════════
+  { name: 'Wall Street Journal', url: 'https://feeds.a.dj.com/rss/RSSWorldNews.xml', category: 'world' },
+  { name: 'The Economist', url: 'https://www.economist.com/united-states/rss.xml', category: 'politics' },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // RIGHT-LEANING (Conservative mainstream)
+  // ═══════════════════════════════════════════════════════════════════════════
   { name: 'Fox News Politics', url: 'https://moxie.foxnews.com/google-publisher/politics.xml', category: 'politics' },
   { name: 'New York Post', url: 'https://nypost.com/news/feed/', category: 'general' },
+  { name: 'Washington Examiner', url: 'https://www.washingtonexaminer.com/section/news/feed', category: 'politics' },
+  { name: 'Washington Times', url: 'https://www.washingtontimes.com/rss/headlines/news/politics/', category: 'politics' },
+  { name: 'Daily Mail', url: 'https://www.dailymail.co.uk/news/us-politics/index.rss', category: 'politics' },
 
-  // Business/Economy (affects politics)
-  { name: 'CNBC', url: 'https://www.cnbc.com/id/10000113/device/rss/rss.html', category: 'economy' },
+  // ═══════════════════════════════════════════════════════════════════════════
+  // INDEPENDENT / ALTERNATIVE (Various perspectives)
+  // ═══════════════════════════════════════════════════════════════════════════
+  { name: 'The Intercept', url: 'https://theintercept.com/feed/?rss', category: 'investigative' },
+  { name: 'ProPublica', url: 'https://www.propublica.org/feeds/propublica/main', category: 'investigative' },
+  { name: 'Reason', url: 'https://reason.com/feed/', category: 'libertarian' },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // INTERNATIONAL (Outside US media bubble)
+  // ═══════════════════════════════════════════════════════════════════════════
+  { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml', category: 'world' },
+  { name: 'France 24', url: 'https://www.france24.com/en/rss', category: 'world' },
+  { name: 'DW News', url: 'https://rss.dw.com/rdf/rss-en-all', category: 'world' },
+  { name: 'Sky News', url: 'https://feeds.skynews.com/feeds/rss/us.xml', category: 'world' },
+  { name: 'Globe and Mail', url: 'https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/world/', category: 'world' },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // BUSINESS / ECONOMY
+  // ═══════════════════════════════════════════════════════════════════════════
   { name: 'Bloomberg', url: 'https://feeds.bloomberg.com/politics/news.rss', category: 'politics' },
+  { name: 'CNBC', url: 'https://www.cnbc.com/id/10000113/device/rss/rss.html', category: 'economy' },
+  { name: 'Financial Times', url: 'https://www.ft.com/rss/home/us', category: 'economy' },
+  { name: 'MarketWatch', url: 'https://feeds.marketwatch.com/marketwatch/topstories/', category: 'economy' },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TECH / SCIENCE (Policy implications)
+  // ═══════════════════════════════════════════════════════════════════════════
+  { name: 'Ars Technica', url: 'https://feeds.arstechnica.com/arstechnica/features', category: 'tech' },
+  { name: 'Wired', url: 'https://www.wired.com/feed/rss', category: 'tech' },
+  { name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml', category: 'tech' },
 ];
 
 /**
