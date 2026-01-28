@@ -53,9 +53,9 @@ export async function GET(request: Request) {
 
     console.log(`[Cron] Clustering ${unclustered.length} articles...`);
 
-    // Run clustering algorithm
+    // Run clustering algorithm (now async with Claude AI analysis)
     const { stories, clusteredArticleIds, unclusteredIds } =
-      clusterIntoStories(unclustered);
+      await clusterIntoStories(unclustered);
 
     if (stories.length === 0) {
       console.log('[Cron] No clusters formed');

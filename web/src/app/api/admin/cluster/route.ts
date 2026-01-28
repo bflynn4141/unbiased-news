@@ -40,9 +40,9 @@ export async function POST(request: Request) {
 
     console.log(`Clustering ${unclustered.length} articles...`);
 
-    // Run clustering algorithm
+    // Run clustering algorithm (now async with Claude AI analysis)
     const { stories, clusteredArticleIds, unclusteredIds } =
-      clusterIntoStories(unclustered);
+      await clusterIntoStories(unclustered);
 
     if (stories.length === 0) {
       return NextResponse.json({
